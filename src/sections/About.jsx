@@ -1,5 +1,5 @@
 import Anim from "../components/Anim";
-import "../About.css";
+
 
 export default function About({ visible }) {
   return (

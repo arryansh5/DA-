@@ -5,7 +5,6 @@ import MainLayout from "./Layout/MainLayout";
 import Cursor from "./components/Cusor";
 
 import "./App.css";
-import "./Hero.css";
 
 
 function AppWrapper() {

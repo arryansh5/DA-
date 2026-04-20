@@ -1,5 +1,5 @@
 export default function DotNav({ active, onDotClick }) {
-  const SECTIONS = ["Home", "About", "Projects", "Skills", "Contact"];
+  const SECTIONS = ["Home", "About", "Skills", "Projects", "Contact"];
 
   return (
     <nav className="dot-nav">
