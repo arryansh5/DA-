@@ -5,10 +5,10 @@ export default function Header({ goTo, activeSection }) {
 
   const SECTIONS = ["Home", "About", "Skills", "Projects", "Contact"];
 
-  const handleNav = (i) => {
-    goTo(i);
-    setMenuOpen(false);
-  };
+  // const handleNav = (i) => {
+  //   goTo(i);
+  //   setMenuOpen(false);
+  // };
 
   return (
     <>
@@ -38,7 +38,7 @@ export default function Header({ goTo, activeSection }) {
           <span className="nav-phone">(+91) 9166563495</span>
 
           {/* HAMBURGER — mobile only */}
-          <button
+          {/* <button
             className="nav-hamburger"
             onClick={() => setMenuOpen((v) => !v)}
             aria-label="Toggle menu"
@@ -46,12 +46,12 @@ export default function Header({ goTo, activeSection }) {
             <span className={`ham-line${menuOpen ? " open" : ""}`} />
             <span className={`ham-line${menuOpen ? " open" : ""}`} />
             <span className={`ham-line${menuOpen ? " open" : ""}`} />
-          </button>
+          </button> */}
         </div>
       </header>
 
       {/* MOBILE DROPDOWN MENU */}
-      <div className={`mobile-menu${menuOpen ? " mobile-menu--open" : ""}`}>
+      {/* <div className={`mobile-menu${menuOpen ? " mobile-menu--open" : ""}`}>
         {SECTIONS.map((s, i) => (
           <button
             key={i}
@@ -62,7 +62,7 @@ export default function Header({ goTo, activeSection }) {
             {s}
           </button>
         ))}
-      </div>
+      </div> */}
 
       {/* OVERLAY */}
       {menuOpen && (
