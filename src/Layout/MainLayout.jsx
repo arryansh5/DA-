@@ -12,6 +12,7 @@ const SECTIONS = ["Home", "About", "Skills", "Projects", "Contact"];
 
 export default function MainLayout() {
   const location = useLocation();
+  const trackRef = useRef(null);
   const isProjectPage = location.pathname.startsWith("/project/");
 
   const [activeSection, setActiveSection] = useState(0);
@@ -73,13 +74,26 @@ export default function MainLayout() {
     return () => window.removeEventListener("wheel", handleWheel);
   }, [activeSection, goTo, isProjectPage, isMobile]);
 
+  useEffect(() => {
+  if (!isMobile) return;
+  const track = trackRef.current;
+  if (!track) return;
+
+  const onScroll = () => {
+    const index = Math.round(track.scrollTop / window.innerHeight);
+    setActiveSection(index);
+  };
+
+  track.addEventListener("scroll", onScroll, { passive: true });
+  return () => track.removeEventListener("scroll", onScroll);
+}, [isMobile]);
+
   /* ─── TOUCH SWIPE (mobile) ─────────────── */
   useEffect(() => {
     if (isProjectPage || !isMobile) return;
 
     const handleTouchStart = (e) => {
-      touchStartY.current = e.touches[0].clientY;
-      touchStartX.current = e.touches[0].clientX;
+      
     };
 
     const handleTouchEnd = (e) => {
@@ -128,6 +142,7 @@ export default function MainLayout() {
       />
 
       <div
+        ref={trackRef}
         className="sections-track"
         style={{
           transform: `translateY(-${activeSection * 100}vh)`
