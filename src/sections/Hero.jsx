@@ -20,20 +20,23 @@ export default function Hero() {
       {/* ── FULL-SCREEN VIDEO BACKGROUND ── */}
       <div className="absolute inset-0 z-0">
         <video
-          src="/hero-video.mp4"
           autoPlay
           muted
           loop
           playsInline
           className="w-full h-full object-cover object-center"
-        />
-        {/* Left-to-right gradient: dark on left for text legibility, fades to video on right */}
-        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/20" />
-        {/* Top & bottom subtle fade */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/60" />
+        >
+          <source src="/hero-video.mp4" type="video/mp4" />
+        </video>
+        {/* Dark gradient — strong on left for text legibility */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/60 to-black/20" />
+        {/* Top navbar area darker so nav text is always visible */}
+        <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-black/70 to-transparent" />
+        {/* Bottom fade */}
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/70" />
       </div>
 
-      {/* ── ARCHITECTURAL GRID (very subtle) ── */}
+      {/* ── SUBTLE GRID ── */}
       <div
         className="absolute inset-0 z-[1] pointer-events-none"
         style={{
@@ -54,40 +57,41 @@ export default function Hero() {
             className={`flex items-center gap-4 mb-8 transition-all duration-700 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
             style={{ transitionDelay: '200ms' }}
           >
-            <div className="h-px w-12 bg-maroon" />
-            <span className="font-mono text-xs tracking-[0.25em] uppercase text-soft-grey/70">
-              Healthcare Architecture & Interior Design Studio
+            <div className="h-px w-16 bg-maroon" />
+            <span
+              className="font-mono text-sm tracking-[0.2em] uppercase text-white font-bold"
+              style={{ textShadow: '0 1px 8px rgba(0,0,0,0.9), 0 0 20px rgba(0,0,0,0.7)' }}
+            >
+              Healthcare Architecture &amp; Interior Design Studio
             </span>
           </div>
 
           {/* H1 */}
           <h1
-            className={`font-serif text-5xl sm:text-6xl md:text-7xl xl:text-8xl leading-[1.05] text-white mb-8 transition-all duration-800 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-            style={{ transitionDelay: '350ms' }}
+            className={`font-serif font-bold text-5xl sm:text-6xl md:text-7xl xl:text-8xl leading-[1.05] text-white mb-8 transition-all duration-800 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+            style={{ transitionDelay: '350ms', textShadow: '0 2px 30px rgba(0,0,0,0.8), 0 4px 60px rgba(0,0,0,0.5)' }}
           >
             Spaces That
             <br />
-            <span
-              className="not-italic"
-              style={{
-                backgroundImage: 'linear-gradient(135deg, #8B2635, #C04060)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-              }}
-            >
+            <span style={{
+              backgroundImage: 'linear-gradient(135deg, #C03050, #E05070)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+              filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.6))',
+            }}>
               Heal.
             </span>
             <br />
-            <span className="text-white/80">Design That</span>
+            <span className="text-white/95">Design That</span>
             <br />
             Inspires.
           </h1>
 
-          {/* Subtext */}
+          {/* Sub */}
           <p
-            className={`text-white/55 text-lg max-w-lg leading-relaxed mb-12 transition-all duration-700 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
-            style={{ transitionDelay: '500ms' }}
+            className={`text-white/85 text-lg max-w-lg leading-relaxed mb-12 transition-all duration-700 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+            style={{ transitionDelay: '500ms', textShadow: '0 1px 12px rgba(0,0,0,0.7)' }}
           >
             We design premium healthcare environments — hospitals, clinics, and surgical centres —
             built around clinical precision, patient well-being, and architectural excellence.
@@ -107,16 +111,16 @@ export default function Hero() {
             </button>
             <button
               onClick={scrollToAbout}
-              className="flex items-center gap-3 px-8 py-4 font-mono text-xs tracking-widest uppercase border border-white/30 text-white hover:border-white/60 transition-all duration-300"
+              className="flex items-center gap-3 px-8 py-4 font-mono text-xs tracking-widest uppercase border border-white/30 text-white hover:border-white/70 hover:bg-white/10 transition-all duration-300"
             >
               Our Studio
             </button>
           </div>
         </div>
 
-        {/* Stats strip — bottom of content area */}
+        {/* Stats strip */}
         <div
-          className={`mt-20 grid grid-cols-2 md:grid-cols-4 border border-white/10 bg-black/30 backdrop-blur-sm transition-all duration-700 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+          className={`mt-20 grid grid-cols-2 md:grid-cols-4 border border-white/15 bg-black/50 backdrop-blur-md rounded-2xl overflow-hidden transition-all duration-700 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
           style={{ transitionDelay: '800ms' }}
         >
           {[
@@ -125,12 +129,9 @@ export default function Hero() {
             { num: '12', label: 'Cities Across India' },
             { num: '98%', label: 'Client Satisfaction' },
           ].map(({ num, label }, i) => (
-            <div
-              key={label}
-              className={`px-6 py-5 md:px-8 md:py-7 ${i < 3 ? 'border-r border-white/10' : ''}`}
-            >
-              <div className="font-serif text-3xl md:text-4xl text-maroon-light font-bold mb-1">{num}</div>
-              <div className="text-white/40 text-xs font-mono tracking-wider uppercase">{label}</div>
+            <div key={label} className={`px-6 py-5 md:px-8 md:py-7 ${i < 3 ? 'border-r border-white/15' : ''}`}>
+              <div className="font-serif text-3xl md:text-4xl text-white font-bold mb-1">{num}</div>
+              <div className="text-white/70 text-xs font-mono tracking-wider uppercase">{label}</div>
             </div>
           ))}
         </div>
@@ -152,10 +153,7 @@ export default function Hero() {
       <div className="relative z-10 border-t border-white/10 overflow-hidden py-3 bg-black/40 backdrop-blur-sm">
         <div className="flex gap-0 whitespace-nowrap" style={{ animation: 'marquee 28s linear infinite' }}>
           {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((item, i) => (
-            <span
-              key={i}
-              className="inline-flex items-center gap-6 text-white/25 font-mono text-xs tracking-widest uppercase px-8"
-            >
+            <span key={i} className="inline-flex items-center gap-6 text-white/25 font-mono text-xs tracking-widest uppercase px-8">
               {item}
               <span className="w-1.5 h-1.5 rounded-full bg-maroon/60 inline-block" />
             </span>

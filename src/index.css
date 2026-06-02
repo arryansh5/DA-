@@ -33,6 +33,12 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  cursor: none;   /* hide native cursor — custom cursor takes over */
+}
+
+/* Also hide native cursor on all interactive elements */
+a, button, [data-cursor], input, textarea, select {
+  cursor: none !important;
 }
 
 /* Custom scrollbar */
@@ -50,21 +56,27 @@ body {
   background: var(--maroon);
   border-radius: 50%;
   position: fixed;
+  top: 0;
+  left: 0;
   pointer-events: none;
   z-index: 9999;
-  transform: translate(-50%, -50%);
-  transition: transform 0.1s ease;
+  margin: -4px 0 0 -4px;   /* center the dot on the point */
+  will-change: transform;
 }
 .cursor-ring {
-  width: 36px;
-  height: 36px;
-  border: 1px solid rgba(110, 31, 40, 0.5);
+  width: 32px;
+  height: 32px;
+  border: 1.5px solid rgba(110, 31, 40, 0.55);
   border-radius: 50%;
   position: fixed;
+  top: 0;
+  left: 0;
   pointer-events: none;
   z-index: 9998;
-  transform: translate(-50%, -50%);
-  transition: all 0.15s ease;
+  margin: -16px 0 0 -16px;  /* center the ring on the point */
+  will-change: transform;
+  transition: width 0.15s ease, height 0.15s ease,
+              border-color 0.15s ease, background 0.15s ease;
 }
 
 /* Grid overlay — dark lines on light bg */

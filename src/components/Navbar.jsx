@@ -36,37 +36,44 @@ export default function Navbar() {
     <>
       <header
         className={`fixed top-0 left-0 right-0 z-[200] transition-all duration-500 ${
-          scrolled
-            ? 'bg-white/95 backdrop-blur-xl border-b border-black/5 py-3 shadow-sm'
-            : 'bg-white/80 backdrop-blur-sm py-5'
+          scrolled ? 'py-4' : 'py-6'
         }`}
       >
-        <div className="max-w-8xl mx-auto px-6 md:px-12 flex items-center justify-between">
-          {/* LOGO */}
+        <div className="max-w-8xl mx-auto px-6 md:px-12 flex items-center justify-between gap-6">
+
+          {/* ── LOGO (left pill) ── */}
           <a
             href="/"
-            className="flex items-center gap-2 group"
             onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+            className={`flex items-center gap-3 px-5 py-3 rounded-full transition-all duration-400 ${
+              scrolled
+                ? 'bg-white/95 backdrop-blur-xl shadow-sm border border-black/8'
+                : 'bg-black/40 backdrop-blur-md border border-white/20'
+            }`}
           >
-            <img
-              src="/logo.png"
-              alt="Design Aura Logo"
-              className="h-10 w-auto object-contain"
-            />
-            <span className="font-serif text-lg font-semibold tracking-wide text-charcoal hidden sm:block">
+            <img src="/logo.png" alt="Design Aura" className="h-9 w-auto" />
+            <span className={`font-serif text-lg font-semibold hidden sm:block ${scrolled ? 'text-charcoal' : 'text-white'}`}>
               Design<span className="text-maroon"> Aura</span>
             </span>
           </a>
 
-          {/* DESKTOP NAV */}
-          <nav className="hidden lg:flex items-center gap-10">
+          {/* ── CENTER NAV PILL ── */}
+          <nav className={`hidden lg:flex items-center rounded-full px-2.5 py-2.5 transition-all duration-400 ${
+            scrolled
+              ? 'bg-white/95 backdrop-blur-xl shadow-sm border border-black/8'
+              : 'bg-black/40 backdrop-blur-md border border-white/15'
+          }`}>
             {NAV_LINKS.map(({ label, href }) => (
               <a
                 key={href}
                 href={href}
                 onClick={(e) => handleNav(e, href)}
-                className={`eyebrow-label hover:text-slate-aura transition-colors duration-300 anim-underline ${
-                  activeLink === href ? 'text-maroon' : 'text-slate-aura/80'
+                className={`relative px-6 py-2.5 rounded-full font-mono text-sm tracking-widest uppercase transition-all duration-300 ${
+                  activeLink === href
+                    ? 'bg-maroon text-white shadow-sm'
+                    : scrolled
+                    ? 'text-slate-aura/70 hover:text-[#B04050] hover:bg-[#B04050]/10'
+                    : 'text-white font-semibold hover:text-[#FFB0B8] hover:bg-white/10'
                 }`}
               >
                 {label}
@@ -74,78 +81,85 @@ export default function Navbar() {
             ))}
           </nav>
 
-          {/* RIGHT */}
-          <div className="hidden lg:flex items-center gap-6">
-            <span className="text-slate-aura/50 text-xs font-mono tracking-widest">+91 98765 43210</span>
+          {/* ── RIGHT CTA PILL ── */}
+          <div className="hidden lg:flex items-center gap-3">
             <a
               href="#contact"
               onClick={(e) => handleNav(e, '#contact')}
-              className="btn-maroon px-5 py-2.5 text-xs font-mono tracking-widest uppercase"
+              className={`px-7 py-3 rounded-full font-mono text-sm tracking-widest uppercase transition-all duration-400 border ${
+                scrolled
+                  ? 'border-maroon text-maroon hover:bg-[#B04050] hover:border-[#B04050] hover:text-white bg-white/95 backdrop-blur-xl shadow-sm'
+                  : 'border-white text-white font-semibold hover:bg-[#B04050] hover:border-[#B04050] bg-black/30 backdrop-blur-md'
+              }`}
             >
               Consult Us
             </a>
           </div>
 
-          {/* HAMBURGER */}
+          {/* ── MOBILE HAMBURGER PILL ── */}
           <button
-            className="lg:hidden text-charcoal p-2"
             onClick={() => setMenuOpen((v) => !v)}
             aria-label="Toggle menu"
+            className={`lg:hidden flex items-center justify-center w-12 h-12 rounded-full transition-all duration-300 ${
+              scrolled
+                ? 'bg-white/95 border border-black/8 text-charcoal shadow-sm'
+                : 'bg-white/15 border border-white/20 text-white'
+            }`}
           >
-            {menuOpen ? <X size={22} /> : <Menu size={22} />}
+            {menuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
       </header>
 
-      {/* MOBILE FULLSCREEN MENU */}
+      {/* ── MOBILE FULLSCREEN MENU ── */}
       <div
         className={`fixed inset-0 z-[150] bg-white flex flex-col justify-center px-8 transition-all duration-500 ${
           menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
       >
         <button
-          className="absolute top-6 right-6 text-charcoal"
+          className="absolute top-6 right-6 w-10 h-10 rounded-full border border-black/10 flex items-center justify-center text-charcoal"
           onClick={() => setMenuOpen(false)}
         >
-          <X size={24} />
+          <X size={20} />
         </button>
 
-        <div className="mb-8 flex items-center gap-3">
-          <img src="/logo.png" alt="Design Aura" className="h-12 w-auto" />
+        <div className="mb-10 flex items-center gap-3">
+          <img src="/logo.png" alt="Design Aura" className="h-10 w-auto" />
           <span className="font-serif text-xl text-charcoal">Design<span className="text-maroon"> Aura</span></span>
         </div>
 
-        <nav className="flex flex-col gap-6">
+        <nav className="flex flex-col gap-3">
           {NAV_LINKS.map(({ label, href }, i) => (
             <a
               key={href}
               href={href}
               onClick={(e) => handleNav(e, href)}
-              className="flex items-center gap-4 group"
+              className={`flex items-center gap-4 px-5 py-4 rounded-full group transition-all duration-300 ${
+                activeLink === href
+                  ? 'bg-maroon text-white'
+                  : 'hover:bg-[#B04050]/12 hover:text-[#B04050] text-charcoal'
+              }`}
             >
-              <span className="text-maroon/50 font-mono text-xs">0{i + 1}</span>
-              <span className="font-serif text-3xl text-maroon group-hover:text-slate-aura transition-colors duration-300">
-                {label}
-              </span>
+              <span className="text-maroon/50 font-mono text-xs w-5">0{i + 1}</span>
+              <span className="font-serif text-2xl">{label}</span>
             </a>
           ))}
         </nav>
 
-        <div className="mt-12 pt-8 border-t border-black/10">
+        <div className="mt-10 pt-8 border-t border-black/8">
           <a
             href="#contact"
             onClick={(e) => handleNav(e, '#contact')}
-            className="btn-maroon inline-block px-8 py-3 text-xs font-mono tracking-widest uppercase"
+            className="btn-maroon inline-block px-8 py-3.5 rounded-full font-mono text-xs tracking-widest uppercase"
           >
             Book a Consultation ↗
           </a>
         </div>
 
-        <div className="absolute bottom-8 left-8">
-          <p className="text-slate-aura/40 text-xs font-mono">
-            Design Aura © 2024 · Healthcare Architecture Studio
-          </p>
-        </div>
+        <p className="absolute bottom-8 left-8 text-slate-aura/30 text-xs font-mono">
+          Design Aura © 2024 · Healthcare Architecture Studio
+        </p>
       </div>
     </>
   );
