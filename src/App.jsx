@@ -1,36 +1,44 @@
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import CustomCursor from './components/CustomCursor';
+import ScrollProgress from './components/ScrollProgress';
+import Hero from './sections/Hero';
+import About from './sections/About';
+import Projects from './sections/Projects';
+import Services from './sections/Services';
+import Philosophy from './sections/Philosophy';
+import Testimonials from './sections/Testimonials';
+import Team from './sections/Team';
+import Contact from './sections/Contact';
 
-import MainLayout from "./Layout/MainLayout";
-import Cursor from "./components/Cusor";
-
-import "./App.css";
-
-
-function AppWrapper() {
-  const location = useLocation();
-
-  useEffect(() => {
-    if (location.pathname.startsWith("/project")) {
-      document.body.style.overflow = "auto";   
-    } else {
-      document.body.style.overflow = "hidden";
-    }
-  }, [location.pathname]);
-
+function HomePage() {
   return (
-    <>
-      <Cursor />
-      <Routes>
-        <Route path="/" element={<MainLayout />} />
-      </Routes>
-    </>
+    <div className="relative bg-white overflow-x-hidden">
+      <CustomCursor />
+      <ScrollProgress />
+      <Navbar />
+      <main>
+        <Hero />
+        <About />
+        <Projects />
+        <Services />
+        <Philosophy />
+        <Testimonials />
+        <Team />
+        <Contact />
+      </main>
+      <Footer />
+    </div>
   );
 }
+
 export default function App() {
   return (
     <BrowserRouter>
-      <AppWrapper /> 
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+      </Routes>
     </BrowserRouter>
   );
 }
