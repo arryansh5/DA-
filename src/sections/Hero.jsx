@@ -28,9 +28,26 @@ export default function Hero() {
   // Single shared char index drives ALL stats in sync
   const [charIndex, setCharIndex] = useState(0);
   const [erasing, setErasing] = useState(false);
+  const [loadVideo, setLoadVideo] = useState(false);
 
   useEffect(() => {
     const t = setTimeout(() => setLoaded(true), 100);
+
+    // Defer loading the heavy 43MB background video to optimize page load performance (FCP, LCP)
+    const handleLoad = () => {
+      setTimeout(() => setLoadVideo(true), 1000);
+    };
+
+    if (document.readyState === 'complete') {
+      handleLoad();
+    } else {
+      window.addEventListener('load', handleLoad);
+      return () => {
+        clearTimeout(t);
+        window.removeEventListener('load', handleLoad);
+      };
+    }
+
     return () => clearTimeout(t);
   }, []);
 
@@ -71,16 +88,26 @@ export default function Hero() {
     <section id="hero" className="relative min-h-screen flex flex-col overflow-hidden">
 
       {/* ── FULL-SCREEN VIDEO BACKGROUND ── */}
-      <div className="absolute inset-0 z-0">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="w-full h-full object-cover object-center"
-        >
-          <source src="/hero-video.mp4" type="video/mp4" />
-        </video>
+      <div className="absolute inset-0 z-0 bg-slate-950">
+        {/* Placeholder image loaded first to avoid black/empty screens before the video loads */}
+        <div 
+          className={`absolute inset-0 transition-opacity duration-1000 bg-cover bg-center ${loadVideo ? 'opacity-0' : 'opacity-100'}`}
+          style={{
+            backgroundImage: "url('https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1600&q=50')",
+          }}
+        />
+
+        {loadVideo && (
+          <video
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="w-full h-full object-cover object-center transition-opacity duration-1000"
+          >
+            <source src="/hero-video.mp4" type="video/mp4" />
+          </video>
+        )}
         {/* Dark gradient — strong on left for text legibility */}
         <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/60 to-black/20" />
         {/* Top navbar area darker so nav text is always visible */}

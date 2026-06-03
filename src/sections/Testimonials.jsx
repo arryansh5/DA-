@@ -68,7 +68,7 @@ export default function Testimonials() {
                 "{current.quote}"
               </blockquote>
               <div className="flex items-center gap-4">
-                <img src={current.avatar} alt={current.author} className="w-12 h-12 rounded-full object-cover border-2 border-maroon/20" />
+                <img src={current.avatar} alt={current.author} className="w-12 h-12 rounded-full object-cover border-2 border-maroon/20" loading="lazy" />
                 <div>
                   <p className="text-charcoal font-semibold text-sm">{current.author}</p>
                   <p className="text-slate-aura/50 text-xs font-mono mt-0.5">{current.role}</p>
@@ -95,7 +95,7 @@ export default function Testimonials() {
                   }`}
                 >
                   <div className="flex items-center gap-3 mb-2">
-                    <img src={t.avatar} alt={t.author} className="w-8 h-8 rounded-full object-cover" />
+                    <img src={t.avatar} alt={t.author} className="w-8 h-8 rounded-full object-cover" loading="lazy" />
                     <p className={`text-sm font-semibold ${i === active ? 'text-maroon' : 'text-charcoal/70'}`}>
                       {t.author}
                     </p>

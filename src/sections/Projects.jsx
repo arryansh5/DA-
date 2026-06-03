@@ -72,12 +72,13 @@ function StatsStrip() {
   );
 }
 
-function ProjectCard({ project, index }) {
+function ProjectCard({ project, index, onClick }) {
   const [hovered, setHovered] = useState(false);
 
   return (
     <AnimatedSection delay={index * 80}>
       <article
+        onClick={onClick}
         className="group relative overflow-hidden bg-white border border-black/8 cursor-pointer card-lift"
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
@@ -88,6 +89,7 @@ function ProjectCard({ project, index }) {
             src={project.image}
             alt={project.title}
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            loading="lazy"
           />
           <div className={`absolute inset-0 bg-charcoal/40 transition-opacity duration-500 ${hovered ? 'opacity-20' : 'opacity-50'}`} />
           <div className={`absolute inset-0 bg-maroon/10 transition-opacity duration-500 ${hovered ? 'opacity-100' : 'opacity-0'}`} />
@@ -113,21 +115,28 @@ function ProjectCard({ project, index }) {
           <h3 className="font-serif text-xl md:text-2xl text-maroon group-hover:text-slate-aura transition-colors duration-300 mb-3">
             {project.title}
           </h3>
-          <p className="text-slate-aura/60 text-sm leading-relaxed mb-5 line-clamp-2">{project.desc}</p>
+          <p className="text-slate-aura/60 text-sm leading-relaxed mb-5 line-clamp-3">{project.desc}</p>
+
 
           <div className="flex flex-wrap items-center gap-5 pt-5 border-t border-black/6">
-            <div className="flex items-center gap-2 text-slate-aura/50">
-              <MapPin size={12} />
-              <span className="font-mono text-xs">{project.location}</span>
-            </div>
-            <div className="flex items-center gap-2 text-slate-aura/50">
-              <Calendar size={12} />
-              <span className="font-mono text-xs">{project.year}</span>
-            </div>
-            <div className="flex items-center gap-2 text-slate-aura/50">
-              <Maximize size={12} />
-              <span className="font-mono text-xs">{project.area}</span>
-            </div>
+            {project.location && (
+              <div className="flex items-center gap-2 text-slate-aura/50">
+                <MapPin size={12} />
+                <span className="font-mono text-xs">{project.location}</span>
+              </div>
+            )}
+            {project.year && (
+              <div className="flex items-center gap-2 text-slate-aura/50">
+                <Calendar size={12} />
+                <span className="font-mono text-xs">{project.year}</span>
+              </div>
+            )}
+            {project.area && (
+              <div className="flex items-center gap-2 text-slate-aura/50">
+                <Maximize size={12} />
+                <span className="font-mono text-xs">{project.area}</span>
+              </div>
+            )}
           </div>
         </div>
 
@@ -138,8 +147,134 @@ function ProjectCard({ project, index }) {
   );
 }
 
+function ProjectModal({ project, onClose }) {
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, []);
+
+  return (
+    <div 
+      className="fixed inset-0 bg-black/75 backdrop-blur-sm z-[999] flex items-center justify-center p-4 md:p-8 overflow-y-auto"
+      onClick={onClose}
+    >
+      <div 
+        className="bg-white max-w-5xl w-full shadow-2xl relative flex flex-col md:flex-row max-h-[90vh] md:max-h-[85vh] overflow-hidden animate-slide-up"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Close Button */}
+        <button 
+          onClick={onClose}
+          className="absolute top-4 right-4 z-20 w-10 h-10 bg-white/90 border border-black/10 flex items-center justify-center text-charcoal hover:bg-maroon hover:text-white hover:border-maroon transition-all duration-300"
+          aria-label="Close details"
+        >
+          <span className="text-xl font-light">&times;</span>
+        </button>
+
+        {/* Left Side: Image */}
+        <div className="w-full md:w-[45%] relative aspect-[4/3] md:aspect-auto bg-charcoal overflow-hidden flex-shrink-0">
+          <img 
+            src={project.image} 
+            alt={project.title}
+            className="w-full h-full object-cover"
+            loading="lazy"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent md:hidden" />
+          <div className="absolute bottom-6 left-6 md:hidden">
+            <span className="bg-white/95 backdrop-blur-sm text-charcoal text-[10px] font-mono tracking-wider px-3 py-1 border border-black/10">
+              {project.category}
+            </span>
+          </div>
+        </div>
+
+        {/* Right Side: Content */}
+        <div className="w-full md:w-[55%] p-6 md:p-12 overflow-y-auto flex flex-col justify-between bg-white">
+          <div>
+            <div className="hidden md:flex items-center gap-4 mb-4">
+              <span className="eyebrow-label text-maroon">{project.category}</span>
+              <div className="h-px flex-1 bg-black/8" />
+              <span className="font-mono text-xs text-slate-aura/40">{project.id}</span>
+            </div>
+            
+            <h2 className="font-serif text-2xl md:text-4xl text-charcoal mb-6 leading-tight">
+              {project.title}
+            </h2>
+            
+            <div className="prose prose-slate max-w-none mb-8">
+              <p className="text-slate-aura/70 text-sm md:text-base leading-relaxed whitespace-pre-line">
+                {project.desc}
+              </p>
+            </div>
+          </div>
+
+          {/* Specs grid */}
+          <div className="grid grid-cols-2 gap-y-4 gap-x-6 border-t border-black/8 pt-6 text-xs font-mono mt-auto">
+            {project.client && (
+              <div>
+                <span className="text-slate-aura/40 block text-[9px] uppercase tracking-wider mb-0.5">Client</span>
+                <span className="text-charcoal font-semibold">{project.client}</span>
+              </div>
+            )}
+            {project.location && (
+              <div>
+                <span className="text-slate-aura/40 block text-[9px] uppercase tracking-wider mb-0.5">Location</span>
+                <span className="text-charcoal font-semibold">{project.location}</span>
+              </div>
+            )}
+            {project.area && (
+              <div>
+                <span className="text-slate-aura/40 block text-[9px] uppercase tracking-wider mb-0.5">Area</span>
+                <span className="text-charcoal font-semibold">{project.area}</span>
+              </div>
+            )}
+            {project.beds && (
+              <div>
+                <span className="text-slate-aura/40 block text-[9px] uppercase tracking-wider mb-0.5">Capacity</span>
+                <span className="text-charcoal font-semibold">{project.beds} Beds</span>
+              </div>
+            )}
+            {project.cost && (
+              <div>
+                <span className="text-slate-aura/40 block text-[9px] uppercase tracking-wider mb-0.5">Investment</span>
+                <span className="text-charcoal font-semibold">{project.cost}</span>
+              </div>
+            )}
+            {project.year && (
+              <div>
+                <span className="text-slate-aura/40 block text-[9px] uppercase tracking-wider mb-0.5">Year</span>
+                <span className="text-charcoal font-semibold">{project.year}</span>
+              </div>
+            )}
+            {project.type && (
+              <div>
+                <span className="text-slate-aura/40 block text-[9px] uppercase tracking-wider mb-0.5">Project Type</span>
+                <span className="text-charcoal font-semibold">{project.type}</span>
+              </div>
+            )}
+            {project.scope && (
+              <div>
+                <span className="text-slate-aura/40 block text-[9px] uppercase tracking-wider mb-0.5">Scope</span>
+                <span className="text-charcoal font-semibold">{project.scope}</span>
+              </div>
+            )}
+            {project.focus && (
+              <div className="col-span-2">
+                <span className="text-slate-aura/40 block text-[9px] uppercase tracking-wider mb-0.5">Design Focus</span>
+                <span className="text-charcoal font-semibold">{project.focus}</span>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Projects() {
   const [filter, setFilter] = useState('All');
+  const [selectedProject, setSelectedProject] = useState(null);
   const FILTERS = ['All', 'Hospital', 'Clinic', 'Surgical', 'Diagnostics'];
 
   const filtered = filter === 'All'
@@ -193,9 +328,22 @@ export default function Projects() {
         {/* Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
           {filtered.map((project, i) => (
-            <ProjectCard key={project.id} project={project} index={i} />
+            <ProjectCard 
+              key={project.id} 
+              project={project} 
+              index={i} 
+              onClick={() => setSelectedProject(project)}
+            />
           ))}
         </div>
+
+        {/* Modal */}
+        {selectedProject && (
+          <ProjectModal 
+            project={selectedProject} 
+            onClose={() => setSelectedProject(null)} 
+          />
+        )}
 
         {/* View all */}
         <AnimatedSection delay={300}>

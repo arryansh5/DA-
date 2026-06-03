@@ -79,6 +79,7 @@ export default function About() {
                   src="https://images.unsplash.com/photo-1631217873436-b58f5f8adedb?w=800&q=80"
                   alt="Design Aura Studio"
                   className="w-full h-full object-cover"
+                  loading="lazy"
                 />
               </div>
               <div className="absolute -bottom-4 -right-4 w-full h-full border-2 border-maroon/20 -z-10" />

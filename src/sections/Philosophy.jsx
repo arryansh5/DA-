@@ -13,10 +13,11 @@ export default function Philosophy() {
       {/* Subtle bg image — very faint */}
       <div className="absolute inset-0 pointer-events-none">
         <img
-          src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=1920&q=60"
+          src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1200&q=30"
           alt=""
           className="w-full h-full object-cover"
           style={{ opacity: 0.04 }}
+          loading="lazy"
         />
       </div>
       {/* Right maroon accent */}
