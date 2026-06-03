@@ -10,6 +10,9 @@ const NAV_LINKS = [
   { label: 'Contact', href: '#contact' },
 ];
 
+const LEFT_LINKS  = NAV_LINKS.slice(0, 3);  // About · Projects · Services
+const RIGHT_LINKS = NAV_LINKS.slice(3);     // Philosophy · Team · Contact
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -32,6 +35,21 @@ export default function Navbar() {
     document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  /* shared pill class */
+  const pillCls = scrolled
+    ? 'bg-white/95 backdrop-blur-xl shadow-sm border border-black/8'
+    : 'bg-black/40 backdrop-blur-md border border-white/15';
+
+  /* shared link class */
+  const linkCls = (href) =>
+    `relative px-5 py-2.5 rounded-full font-mono text-sm tracking-widest uppercase transition-all duration-300 ${
+      activeLink === href
+        ? 'bg-maroon text-white shadow-sm'
+        : scrolled
+        ? 'text-slate-aura/70 hover:text-[#B04050] hover:bg-[#B04050]/10'
+        : 'text-white font-semibold hover:text-[#FFB0B8] hover:bg-white/10'
+    }`;
+
   return (
     <>
       <header
@@ -39,54 +57,50 @@ export default function Navbar() {
           scrolled ? 'py-4' : 'py-6'
         }`}
       >
-        <div className="max-w-8xl mx-auto px-6 md:px-12 flex items-center justify-between gap-6">
+        <div className="relative max-w-8xl mx-auto px-6 md:px-12 flex items-center justify-between">
 
-          {/* ── LOGO (left pill) ── */}
+          {/* ── LEFT NAV PILL ── */}
+          <nav className={`hidden lg:flex items-center rounded-full px-2.5 py-2.5 transition-all duration-400 ${pillCls}`}>
+            {LEFT_LINKS.map(({ label, href }) => (
+              <a key={href} href={href} onClick={(e) => handleNav(e, href)} className={linkCls(href)}>
+                {label}
+              </a>
+            ))}
+          </nav>
+
+          {/* Mobile spacer — balances hamburger so logo stays centred */}
+          <div className="lg:hidden w-12 h-12" />
+
+          {/* ── CENTER: LOGO (absolutely centred) ── */}
           <a
             href="/"
             onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-            className={`flex items-center gap-3 px-5 py-3 rounded-full transition-all duration-400 ${
+            className={`absolute left-1/2 -translate-x-1/2 flex items-center gap-3 px-5 py-3 rounded-full transition-all duration-400 z-10 ${
               scrolled
                 ? 'bg-white/95 backdrop-blur-xl shadow-sm border border-black/8'
                 : 'bg-black/40 backdrop-blur-md border border-white/20'
             }`}
           >
             <img src="/logo.png" alt="Design Aura" className="h-9 w-auto" />
-            <span className={`font-serif text-lg font-semibold hidden sm:block ${scrolled ? 'text-charcoal' : 'text-white'}`}>
+            <span className={`font-serif text-lg font-semibold whitespace-nowrap ${scrolled ? 'text-charcoal' : 'text-white'}`}>
               Design<span className="text-maroon"> Aura</span>
             </span>
           </a>
 
-          {/* ── CENTER NAV PILL ── */}
-          <nav className={`hidden lg:flex items-center rounded-full px-2.5 py-2.5 transition-all duration-400 ${
-            scrolled
-              ? 'bg-white/95 backdrop-blur-xl shadow-sm border border-black/8'
-              : 'bg-black/40 backdrop-blur-md border border-white/15'
-          }`}>
-            {NAV_LINKS.map(({ label, href }) => (
-              <a
-                key={href}
-                href={href}
-                onClick={(e) => handleNav(e, href)}
-                className={`relative px-6 py-2.5 rounded-full font-mono text-sm tracking-widest uppercase transition-all duration-300 ${
-                  activeLink === href
-                    ? 'bg-maroon text-white shadow-sm'
-                    : scrolled
-                    ? 'text-slate-aura/70 hover:text-[#B04050] hover:bg-[#B04050]/10'
-                    : 'text-white font-semibold hover:text-[#FFB0B8] hover:bg-white/10'
-                }`}
-              >
-                {label}
-              </a>
-            ))}
-          </nav>
-
-          {/* ── RIGHT CTA PILL ── */}
+          {/* ── RIGHT NAV PILL + CTA ── */}
           <div className="hidden lg:flex items-center gap-3">
+            <nav className={`flex items-center rounded-full px-2.5 py-2.5 transition-all duration-400 ${pillCls}`}>
+              {RIGHT_LINKS.map(({ label, href }) => (
+                <a key={href} href={href} onClick={(e) => handleNav(e, href)} className={linkCls(href)}>
+                  {label}
+                </a>
+              ))}
+            </nav>
+
             <a
               href="#contact"
               onClick={(e) => handleNav(e, '#contact')}
-              className={`px-7 py-3 rounded-full font-mono text-sm tracking-widest uppercase transition-all duration-400 border ${
+              className={`flex items-center px-7 py-3 rounded-full font-mono text-sm tracking-widest uppercase transition-all duration-400 border ${
                 scrolled
                   ? 'border-maroon text-maroon hover:bg-[#B04050] hover:border-[#B04050] hover:text-white bg-white/95 backdrop-blur-xl shadow-sm'
                   : 'border-white text-white font-semibold hover:bg-[#B04050] hover:border-[#B04050] bg-black/30 backdrop-blur-md'
@@ -96,7 +110,7 @@ export default function Navbar() {
             </a>
           </div>
 
-          {/* ── MOBILE HAMBURGER PILL ── */}
+          {/* ── MOBILE HAMBURGER ── */}
           <button
             onClick={() => setMenuOpen((v) => !v)}
             aria-label="Toggle menu"
@@ -108,6 +122,7 @@ export default function Navbar() {
           >
             {menuOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
+
         </div>
       </header>
 

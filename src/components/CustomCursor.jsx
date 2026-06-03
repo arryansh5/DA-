@@ -51,8 +51,8 @@ export default function CustomCursor() {
     };
 
     const animate = () => {
-      ringX += (mouseX - ringX) * 0.30;
-      ringY += (mouseY - ringY) * 0.30;
+      ringX += (mouseX - ringX) * 0.50;
+      ringY += (mouseY - ringY) * 0.50;
       if (ringRef.current) {
         ringRef.current.style.transform = `translate3d(${ringX}px, ${ringY}px, 0)`;
       }
