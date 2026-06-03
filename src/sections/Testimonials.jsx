@@ -25,9 +25,7 @@ export default function Testimonials() {
             </AnimatedSection>
             <AnimatedSection delay={100}>
               <h2 className="font-serif text-4xl md:text-5xl heading-hover cursor-default">
-                What Our Clients
-                <br />
-                <em>Say About Us.</em>
+                What Our Clients <em>Say About Us.</em>
               </h2>
             </AnimatedSection>
           </div>

@@ -29,9 +29,7 @@ export default function Services() {
             </AnimatedSection>
             <AnimatedSection delay={100}>
               <h2 className="font-serif text-4xl md:text-5xl xl:text-6xl leading-tight heading-hover cursor-default">
-                Services Built
-                <br />
-                for <em>Healthcare.</em>
+                Services Built for <em>Healthcare.</em>
               </h2>
             </AnimatedSection>
           </div>

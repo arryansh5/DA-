@@ -48,9 +48,7 @@ export default function Contact() {
         </AnimatedSection>
         <AnimatedSection delay={100}>
           <h2 className="font-serif text-4xl md:text-5xl xl:text-6xl mb-16 heading-hover cursor-default">
-            Let's Design Your
-            <br />
-            <em>Next Landmark.</em>
+            Let's Design Your <em>Next Landmark.</em>
           </h2>
         </AnimatedSection>
 

@@ -39,8 +39,10 @@ export default function Navbar() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 right-0 z-[200] w-full transition-all duration-300 ${
-          scrolled ? 'bg-black shadow-md' : 'bg-black/90 backdrop-blur-md'
+        className={`fixed top-0 left-0 right-0 z-[200] w-full transition-all duration-500 ${
+          scrolled
+            ? 'bg-black/95 backdrop-blur-md shadow-lg'
+            : 'bg-transparent'
         }`}
       >
         {/* ── 2. MIDDLE ICON & LOGO BAR ── */}

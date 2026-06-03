@@ -300,9 +300,7 @@ export default function Projects() {
             </AnimatedSection>
             <AnimatedSection delay={100}>
               <h2 className="font-serif text-4xl md:text-5xl xl:text-6xl heading-hover cursor-default">
-                Healthcare
-                <br />
-                <em>Spaces We've Built.</em>
+                Healthcare <em>Spaces We've Built.</em>
               </h2>
             </AnimatedSection>
           </div>

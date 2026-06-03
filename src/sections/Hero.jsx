@@ -129,17 +129,16 @@ export default function Hero() {
       <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-transparent via-maroon to-transparent z-[2] hidden xl:block" />
 
       {/* ── MAIN CONTENT ── */}
-      <div className="relative z-10 flex-1 flex flex-col justify-center max-w-8xl mx-auto w-full px-6 md:px-12 xl:px-20 pt-48 pb-16">
-        <div className="max-w-2xl">
+      <div className="relative z-10 flex-1 flex flex-col justify-center items-center text-center w-full px-6 md:px-12 xl:px-20 pt-48 pb-16">
+        <div className="w-full max-w-7xl">
 
           {/* Eyebrow removed as requested */}
           {/* H1 */}
           <h1
-            className={`font-serif font-bold text-5xl sm:text-6xl md:text-7xl xl:text-8xl leading-[1.05] text-white mb-8 transition-all duration-800 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+            className={`font-serif font-bold text-4xl sm:text-5xl md:text-6xl xl:text-7xl leading-[1.1] text-white mb-8 whitespace-nowrap transition-all duration-800 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
             style={{ transitionDelay: '350ms', textShadow: '0 2px 30px rgba(0,0,0,0.8), 0 4px 60px rgba(0,0,0,0.5)' }}
           >
-            Spaces That
-            <br />
+            Spaces That{' '}
             <span style={{
               backgroundImage: 'linear-gradient(135deg, #C03050, #E05070)',
               WebkitBackgroundClip: 'text',
@@ -148,17 +147,15 @@ export default function Hero() {
               filter: 'drop-shadow(0 2px 8px rgba(0,0,0,0.6))',
             }}>
               Heal.
-            </span>
-            <br />
-            <span className="text-white/95">Design That</span>
-            <br />
+            </span>{' '}
+            <span className="text-white/95">Design That</span>{' '}
             Inspires.
           </h1>
 
           {/* Sub removed as requested */}
           {/* CTAs */}
           <div
-            className={`flex flex-wrap items-center gap-4 transition-all duration-700 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+            className={`flex flex-wrap items-center justify-center gap-4 transition-all duration-700 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
             style={{ transitionDelay: '650ms' }}
           >
             <button

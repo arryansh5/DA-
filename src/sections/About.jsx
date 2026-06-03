@@ -35,9 +35,7 @@ export default function About() {
 
             <AnimatedSection delay={100}>
               <h2 className="font-serif text-4xl md:text-5xl xl:text-6xl leading-tight mb-8 heading-hover cursor-default">
-                Where Architecture
-                <br />
-                Meets <em>Healing.</em>
+                Where Architecture Meets <em>Healing.</em>
               </h2>
             </AnimatedSection>
 

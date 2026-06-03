@@ -73,9 +73,7 @@ export default function Team() {
             </AnimatedSection>
             <AnimatedSection delay={100}>
               <h2 className="font-serif text-4xl md:text-5xl xl:text-6xl leading-tight heading-hover cursor-default">
-                The Minds Behind
-                <br />
-                <em>Every Space.</em>
+                The Minds Behind <em>Every Space.</em>
               </h2>
             </AnimatedSection>
           </div>

@@ -34,9 +34,7 @@ export default function Philosophy() {
           </AnimatedSection>
           <AnimatedSection delay={100}>
             <h2 className="font-serif text-4xl md:text-5xl xl:text-6xl leading-tight mb-6 heading-hover cursor-default">
-              We believe design
-              <br />
-              <em>changes outcomes.</em>
+              We believe design <em>changes outcomes.</em>
             </h2>
           </AnimatedSection>
           <AnimatedSection delay={200}>
