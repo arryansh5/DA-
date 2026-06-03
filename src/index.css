@@ -217,3 +217,15 @@ a, button, [data-cursor], input, textarea, select {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* Typewriter cursor blink */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Hero marquee ticker */
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-33.333%); }
+}

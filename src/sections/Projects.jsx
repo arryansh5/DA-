@@ -1,7 +1,76 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import AnimatedSection from '../components/AnimatedSection';
 import { projects } from '../data/content';
 import { ArrowUpRight, MapPin, Calendar, Maximize } from 'lucide-react';
+
+const STATS = [
+  { num: '50+', label: 'Projects Delivered' },
+  { num: '18',  label: 'Years Experience' },
+  { num: '12',  label: 'Cities Across India' },
+  { num: '98%', label: 'Client Satisfaction' },
+];
+
+function StatDisplay({ text }) {
+  return (
+    <>
+      {text}
+      <span
+        className="inline-block w-[2px] h-[0.85em] bg-white/40 ml-0.5 align-middle"
+        style={{ animation: 'blink 0.75s step-end infinite' }}
+      />
+    </>
+  );
+}
+
+function StatsStrip() {
+  const [charIndex, setCharIndex] = useState(0);
+  const [erasing, setErasing]     = useState(false);
+
+  useEffect(() => {
+    let timeout;
+    const maxLen = Math.max(...STATS.map(s => s.num.length));
+    const tick = () => {
+      setCharIndex(prev => {
+        if (!erasing) {
+          const next = prev + 1;
+          if (next >= maxLen) {
+            setTimeout(() => setErasing(true), 1800);
+            return next;
+          }
+          timeout = setTimeout(tick, 110);
+          return next;
+        } else {
+          const next = prev - 1;
+          if (next <= 0) {
+            setTimeout(() => setErasing(false), 600);
+            return 0;
+          }
+          timeout = setTimeout(tick, 70);
+          return next;
+        }
+      });
+    };
+    timeout = setTimeout(tick, 600);
+    return () => clearTimeout(timeout);
+  }, [erasing]);
+
+  return (
+    <div className="w-full bg-charcoal border-b border-white/10">
+      <div className="max-w-8xl mx-auto px-6 md:px-12 xl:px-20">
+        <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-white/10">
+          {STATS.map(({ num, label }, i) => (
+            <div key={label} className="px-6 py-6 md:px-8 md:py-8">
+              <div className="font-serif text-3xl md:text-4xl text-white font-bold mb-1">
+                <StatDisplay text={num.slice(0, charIndex)} />
+              </div>
+              <div className="text-white/50 text-xs font-mono tracking-wider uppercase">{label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function ProjectCard({ project, index }) {
   const [hovered, setHovered] = useState(false);
@@ -78,10 +147,13 @@ export default function Projects() {
     : projects.filter((p) => p.tags.some((t) => t.toLowerCase().includes(filter.toLowerCase())));
 
   return (
-    <section id="projects" className="relative bg-white py-28 md:py-36 overflow-hidden">
+    <section id="projects" className="relative bg-white overflow-hidden">
+      {/* Stats strip at the very top */}
+      <StatsStrip />
+
       <div className="absolute top-0 right-0 w-80 h-80 rounded-full bg-maroon/5 blur-3xl pointer-events-none" />
 
-      <div className="relative max-w-8xl mx-auto px-6 md:px-12 xl:px-20">
+      <div className="relative max-w-8xl mx-auto px-6 md:px-12 xl:px-20 py-28 md:py-36">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-6">
           <div>

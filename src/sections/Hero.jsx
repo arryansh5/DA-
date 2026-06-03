@@ -3,13 +3,66 @@ import { ArrowDown, ArrowUpRight } from 'lucide-react';
 
 const MARQUEE_ITEMS = ['Healthcare Architecture', 'Hospital Design', 'Clinical Interiors', 'NABH Compliance', 'Healing Environments', 'Surgical Suites'];
 
+const STATS = [
+  { num: '50+', label: 'Projects Delivered' },
+  { num: '18',  label: 'Years Experience' },
+  { num: '12',  label: 'Cities Across India' },
+  { num: '98%', label: 'Client Satisfaction' },
+];
+
+const MAX_LEN = Math.max(...STATS.map(s => s.num.length));
+
+// Simple display — cursor sits right after the last typed character
+const StatDisplay = ({ text }) => (
+  <>
+    {text}
+    <span
+      className="inline-block w-[2px] h-[0.85em] bg-white/40 ml-0.5 align-middle"
+      style={{ animation: 'blink 0.75s step-end infinite' }}
+    />
+  </>
+);
+
 export default function Hero() {
   const [loaded, setLoaded] = useState(false);
+  // Single shared char index drives ALL stats in sync
+  const [charIndex, setCharIndex] = useState(0);
+  const [erasing, setErasing] = useState(false);
 
   useEffect(() => {
     const t = setTimeout(() => setLoaded(true), 100);
     return () => clearTimeout(t);
   }, []);
+
+  // One loop to rule them all
+  useEffect(() => {
+    if (!loaded) return;
+    let timeout;
+    const tick = () => {
+      setCharIndex(prev => {
+        if (!erasing) {
+          const next = prev + 1;
+          const maxLen = Math.max(...STATS.map(s => s.num.length));
+          if (next >= maxLen) {
+            setTimeout(() => setErasing(true), 1800);
+            return next;
+          }
+          timeout = setTimeout(tick, 110);
+          return next;
+        } else {
+          const next = prev - 1;
+          if (next <= 0) {
+            setTimeout(() => setErasing(false), 600);
+            return 0;
+          }
+          timeout = setTimeout(tick, 70);
+          return next;
+        }
+      });
+    };
+    timeout = setTimeout(tick, 900);
+    return () => clearTimeout(timeout);
+  }, [loaded, erasing]);
 
   const scrollToAbout = () => document.querySelector('#about')?.scrollIntoView({ behavior: 'smooth' });
   const scrollToProjects = () => document.querySelector('#projects')?.scrollIntoView({ behavior: 'smooth' });
@@ -49,23 +102,10 @@ export default function Hero() {
       <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-transparent via-maroon to-transparent z-[2] hidden xl:block" />
 
       {/* ── MAIN CONTENT ── */}
-      <div className="relative z-10 flex-1 flex flex-col justify-center max-w-8xl mx-auto w-full px-6 md:px-12 xl:px-20 pt-28 pb-16">
+      <div className="relative z-10 flex-1 flex flex-col justify-center max-w-8xl mx-auto w-full px-6 md:px-12 xl:px-20 pt-48 pb-16">
         <div className="max-w-2xl">
 
-          {/* Eyebrow */}
-          <div
-            className={`flex items-center gap-4 mb-8 transition-all duration-700 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
-            style={{ transitionDelay: '200ms' }}
-          >
-            <div className="h-px w-16 bg-maroon" />
-            <span
-              className="font-mono text-sm tracking-[0.2em] uppercase text-white font-bold"
-              style={{ textShadow: '0 1px 8px rgba(0,0,0,0.9), 0 0 20px rgba(0,0,0,0.7)' }}
-            >
-              Healthcare Architecture &amp; Interior Design Studio
-            </span>
-          </div>
-
+          {/* Eyebrow removed as requested */}
           {/* H1 */}
           <h1
             className={`font-serif font-bold text-5xl sm:text-6xl md:text-7xl xl:text-8xl leading-[1.05] text-white mb-8 transition-all duration-800 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
@@ -88,15 +128,7 @@ export default function Hero() {
             Inspires.
           </h1>
 
-          {/* Sub */}
-          <p
-            className={`text-white/85 text-lg max-w-lg leading-relaxed mb-12 transition-all duration-700 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
-            style={{ transitionDelay: '500ms', textShadow: '0 1px 12px rgba(0,0,0,0.7)' }}
-          >
-            We design premium healthcare environments — hospitals, clinics, and surgical centres —
-            built around clinical precision, patient well-being, and architectural excellence.
-          </p>
-
+          {/* Sub removed as requested */}
           {/* CTAs */}
           <div
             className={`flex flex-wrap items-center gap-4 transition-all duration-700 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
@@ -118,23 +150,6 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Stats strip */}
-        <div
-          className={`mt-20 grid grid-cols-2 md:grid-cols-4 border border-white/15 bg-black/50 backdrop-blur-md rounded-2xl overflow-hidden transition-all duration-700 ${loaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
-          style={{ transitionDelay: '800ms' }}
-        >
-          {[
-            { num: '50+', label: 'Projects Delivered' },
-            { num: '18', label: 'Years Experience' },
-            { num: '12', label: 'Cities Across India' },
-            { num: '98%', label: 'Client Satisfaction' },
-          ].map(({ num, label }, i) => (
-            <div key={label} className={`px-6 py-5 md:px-8 md:py-7 ${i < 3 ? 'border-r border-white/15' : ''}`}>
-              <div className="font-serif text-3xl md:text-4xl text-white font-bold mb-1">{num}</div>
-              <div className="text-white/70 text-xs font-mono tracking-wider uppercase">{label}</div>
-            </div>
-          ))}
-        </div>
       </div>
 
       {/* ── SCROLL INDICATOR ── */}
